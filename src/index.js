@@ -5,6 +5,7 @@ const app = require("./application")(ENV, { updateAppointment });
 const server = require("http").Server(app);
 
 const WebSocket = require("ws");
+const e = require("express");
 const wss = new WebSocket.Server({ server });
 
 wss.on("connection", socket => {
@@ -12,10 +13,13 @@ wss.on("connection", socket => {
     console.log(`Message Received: ${event.data}`);
 
     if (event.data === "ping") {
-      socket.send(JSON.stringify("pong"));
+      socket.send("pong");
     }
+
   };
 });
+
+
 
 function updateAppointment(id, interview) {
   wss.clients.forEach(function eachClient(client) {
